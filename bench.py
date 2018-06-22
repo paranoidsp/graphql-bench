@@ -30,6 +30,7 @@ def runWrk2(url, queriesFile, query, rps, openConns, duration, luaScript):
          "-d", str(duration),
          "-t", str(cpuCount),
          "-s", luaScript,
+         "--latency",
          "--timeout", "1s",
          url,
          queriesFile,

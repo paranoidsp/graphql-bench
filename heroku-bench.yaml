@@ -1,0 +1,47 @@
+- &default_bench
+  name: artistByArtistId_20
+  query: artistByArtistId
+  timeout: 1s
+  warmup_duration: 60
+  duration: 300
+  open_connections: 20
+
+  candidates: &candidates
+  - &hasura
+    name: hasura
+    url: https://hasuradb-server:8080/v1alpha1/graphql
+    queries_file: /graphql-bench/queries.graphql
+
+  rps: &rps_200_1000
+  - 50
+  - 100
+  - 200
+  - 400
+  - 600
+  - 800
+  - 1000
+
+- <<: *default_bench
+  name: artistByArtistId_80
+  query: artistByArtistId
+  open_connections: 80
+
+- <<: *default_bench
+  name: artistByArtistId_100
+  query: artistByArtistId
+  open_connections: 100
+
+- <<: *default_bench
+  name: tracks_media_1_20
+  query: tracks_media_1
+  open_connections: 20
+
+- <<: *default_bench
+  name: tracks_media_1_80
+  query: tracks_media_1
+  open_connections: 80
+
+- <<: *default_bench
+  name: tracks_media_1_100
+  query: tracks_media_1
+  open_connections: 100
