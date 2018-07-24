@@ -69,9 +69,9 @@ def run_dash_server(bench_results):
         dcc.Dropdown(
             id='response-time-metric',
             options=[
-                {'label': 'P95', 'value': 'P95'},
-                {'label': 'P98', 'value': 'P98'},
-                {'label': 'P99', 'value': 'P99'},
+                {'label': 'P95', 'value': 'P80'},
+                {'label': 'P98', 'value': 'P90'},
+                {'label': 'P99', 'value': 'P95'},
                 {'label': 'Min', 'value': 'MIN'},
                 {'label': 'Max', 'value': 'MAX'},
                 {'label': 'Average', 'value': 'AVG'}

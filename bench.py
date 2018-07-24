@@ -95,10 +95,12 @@ def benchQuery(benchParams):
         eprint("-" * 20, 1)
         eprint("candidate: {} on {} at {}".format(candidateQuery, candidateName, candidateUrl), 1)
 
+        warmupRps = [100]
+
         if warmupDuration:
             eprint("Warmup:", 2)
             benchCandidate(candidateUrl, candidateQueriesFile, candidateQuery,
-                           rpsList, openConns, warmupDuration, candidateLuaScript)
+                           warmupRps, openConns, warmupDuration, candidateLuaScript)
 
         eprint("Benchmark:", 2)
         candidateRes = benchCandidate(candidateUrl, candidateQueriesFile, candidateQuery,

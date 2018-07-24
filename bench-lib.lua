@@ -32,7 +32,7 @@ end
 
 local function get_stat_summary(stat)
   local dist = {}
-  for _, p in pairs({ 95, 98, 99 }) do
+  for _, p in pairs({ 80, 90, 95 }) do
     dist[tostring(p)] = stat:percentile(p)
   end
   return {
