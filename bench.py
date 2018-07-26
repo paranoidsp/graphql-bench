@@ -10,6 +10,7 @@ import multiprocessing
 
 import sys
 import os
+import datetime
 
 from plot import run_dash_server
 
@@ -59,6 +60,7 @@ def benchCandidate(url, queriesFile, query, rpsList, openConns, duration, luaScr
     results = {}
     for rps in rpsList:
         eprint("+" * 20, 3)
+        eprint(datetime.datetime.utcnow(),3)
         eprint("{rps}Req/s Duration:{duration}s open connections:{openConns}".format(
             rps=rps,
             duration=duration,
@@ -101,7 +103,7 @@ def benchQuery(benchParams):
             eprint("Warmup:", 2)
             benchCandidate(candidateUrl, candidateQueriesFile, candidateQuery,
                            warmupRps, openConns, warmupDuration, candidateLuaScript)
-
+            
         eprint("Benchmark:", 2)
         candidateRes = benchCandidate(candidateUrl, candidateQueriesFile, candidateQuery,
                                       rpsList, openConns, duration, candidateLuaScript)
@@ -134,7 +136,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     results = bench(args)
 
-    with open("/graphql-bench/ws/result","w+") as resultFile:
+    with open("/graphql-bench/ws/bench.result","w+") as resultFile:
         json.dump(results,resultFile)
         
     #run_dash_server(results)
