@@ -135,6 +135,6 @@ if __name__ == "__main__":
     results = bench(args)
 
     with open("/graphql-bench/ws/result","w+") as resultFile:
-        resultFile.write(results)
+        json.dump(results,resultFile)
         
     #run_dash_server(results)
