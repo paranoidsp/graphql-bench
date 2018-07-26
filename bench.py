@@ -133,4 +133,8 @@ if __name__ == "__main__":
     parser.add_argument('--bench', nargs='?', type=str)
     args = parser.parse_args()
     results = bench(args)
-    run_dash_server(results)
+
+    with open("/graphql-bench/ws/result","w+") as resultFile:
+        resultFile.write(results)
+        
+    #run_dash_server(results)
