@@ -60,7 +60,7 @@ def benchCandidate(url, queriesFile, query, rpsList, openConns, duration, luaScr
     results = {}
     for rps in rpsList:
         eprint("+" * 20, 3)
-        eprint(datetime.datetime.utcnow(),3)
+        eprint(str(datetime.datetime.utcnow()),3)
         eprint("{rps}Req/s Duration:{duration}s open connections:{openConns}".format(
             rps=rps,
             duration=duration,
