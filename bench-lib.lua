@@ -24,10 +24,13 @@ function _M.init(args)
   return json.encode({query=query,operationName=operationName})
 end
 
-function _M.request(wrk, req_body)
+function _M.request(wrk, req_body, ceiling)
   wrk.method = "POST"
   wrk.headers["Content-Type"] = "application/json"
-  wrk.body = req_body
+  param = math.random(1, ceiling)
+  main_query = json.decode(req_body)
+  main_query["variables"] = math.random(1, ceiling)
+  wrk.body = json.encode(main_query)
   return wrk.format()
 end
 

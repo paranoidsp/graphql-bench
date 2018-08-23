@@ -20,7 +20,7 @@ fileLoc = os.path.dirname(os.path.abspath(__file__))
 def eprint(msg, indent):
     print((' ' * 2 * indent) + msg, file=sys.stderr)
 
-def runWrk2(url, queriesFile, query, rps, openConns, duration, luaScript):
+def runWrk2(url, queriesFile, query, rps, openConns, duration, ceiling,  luaScript ):
 
     luaScript = luaScript if luaScript else os.path.join(fileLoc, "bench.lua")
 
@@ -35,7 +35,8 @@ def runWrk2(url, queriesFile, query, rps, openConns, duration, luaScript):
          "--timeout", "1s",
          url,
          queriesFile,
-         query
+         query,
+         str(ceiling)
         ],
         env = dict(
             os.environ,
@@ -56,7 +57,7 @@ def runWrk2(url, queriesFile, query, rps, openConns, duration, luaScript):
             eprint(l, 3)
         return json.loads(p.stderr)
 
-def benchCandidate(url, queriesFile, query, rpsList, openConns, duration, luaScript):
+def benchCandidate(url, queriesFile, query, rpsList, openConns, duration, ceiling, luaScript):
     results = {}
     for rps in rpsList:
         eprint("+" * 20, 3)
@@ -66,7 +67,7 @@ def benchCandidate(url, queriesFile, query, rpsList, openConns, duration, luaScr
             duration=duration,
             openConns=openConns
         ), 3)
-        res = runWrk2(url, queriesFile, query, rps, openConns, duration, luaScript)
+        res = runWrk2(url, queriesFile, query, rps, openConns, duration, ceiling, luaScript)
         results[rps] = res
     return results
 
@@ -83,6 +84,7 @@ def benchQuery(benchParams):
     openConns = benchParams.get("open_connections", 20)
     warmupDuration = benchParams.get("warmup_duration", None)
     query = benchParams.get("query")
+    ceiling = benchParams.get("ceiling", 30)
 
     results = {}
 
@@ -102,11 +104,11 @@ def benchQuery(benchParams):
         if warmupDuration:
             eprint("Warmup:", 2)
             benchCandidate(candidateUrl, candidateQueriesFile, candidateQuery,
-                           warmupRps, openConns, warmupDuration, candidateLuaScript)
-            
+                           warmupRps, openConns, warmupDuration, ceiling,  candidateLuaScript)
+
         eprint("Benchmark:", 2)
         candidateRes = benchCandidate(candidateUrl, candidateQueriesFile, candidateQuery,
-                                      rpsList, openConns, duration, candidateLuaScript)
+                                      rpsList, openConns, duration, ceiling, candidateLuaScript)
         results[candidateName] = candidateRes
 
     return {
@@ -138,5 +140,5 @@ if __name__ == "__main__":
 
     with open("/graphql-bench/ws/bench.result","w+") as resultFile:
         json.dump(results,resultFile)
-        
+
     #run_dash_server(results)

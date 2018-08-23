@@ -71,3 +71,10 @@ query artistByArtistId {
     name
   }
 }
+
+query trackByTrackId ($trackId: Int!) {
+  tracks(where: {id: {_eq: $trackId}}) {
+    id
+    name
+  }
+}

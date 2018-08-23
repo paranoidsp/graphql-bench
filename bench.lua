@@ -12,7 +12,7 @@ function init(args)
 end
 
 function request()
-  return gqbench.request(wrk, req_body)
+  return gqbench.request(wrk, req_body, ceiling)
 end
 
 function done(s, l, r)
